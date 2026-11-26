@@ -163,7 +163,7 @@ export default function AbusePage() {
                 />
               </Space>
             </div>
-            <Spin spinning={loading && !summary}>
+            <Spin spinning={loading && !summary} aria-live="off">
               {summary && !summary.logEnabled && (
                 <Alert type="warning" showIcon message={t('pages.abuse.logOff')} />
               )}
