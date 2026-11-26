@@ -117,6 +117,7 @@
     "groups": "分组",
     "nodes": "节点",
     "settings": "面板设置",
+    "abuse": "用量与 IP 封禁",
     "xray": "Xray 配置",
     "routing": "路由",
     "outbounds": "出站",
@@ -135,6 +136,16 @@
     "themeSystem": "跟随系统"
   },
   "pages": {
+    "abuse": {
+      "account": "账号", "accounts": "账号", "upload": "上传", "download": "下载",
+      "connections": "连接数", "blocked": "拦截数", "sourceIPs": "来源 IP",
+      "bandwidth": "账号带宽 · 最近一小时", "bandwidthHint": "Mbps 速率按 Xray 每五秒一次的流量轮询取平均。",
+      "ports": "目标端口", "bans": "IP 封禁", "ban": "封禁 IP", "unban": "解封 IP",
+      "confirmBan": "封禁 {{ip}}？", "confirmUnban": "解封 {{ip}}？",
+      "logOff": "请先开启 Xray 访问日志。",
+      "statsOff": "请在 Xray 配置中开启日志统计后开始采集。",
+      "bansUnavailable": "本机的 3x-ipl fail2ban 监狱不可用。"
+    },
     "login": {
       "hello": "你好",
       "title": "欢迎",
@@ -2083,6 +2094,8 @@
       "logLevelDesc": "错误日志的日志级别，用于指示需要记录的信息",
       "accessLog": "访问日志",
       "accessLogDesc": "访问日志的文件路径。特殊值 'none' 禁用访问日志",
+      "abuseStats": "日志统计",
+      "abuseStatsDesc": "保存访问日志设置后开始采集账号用量和来源 IP 统计。",
       "errorLog": "错误日志",
       "errorLogDesc": "错误日志的文件路径。特殊值 'none' 禁用错误日志",
       "dnsLog": "DNS 日志",

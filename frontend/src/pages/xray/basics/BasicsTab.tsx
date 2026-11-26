@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { onNumber } from '@/utils/onNumber';
 import { useTranslation } from 'react-i18next';
 import { Alert, Button, Input, InputNumber, Modal, Select, Space, Switch, Tabs } from 'antd';
@@ -13,6 +13,7 @@ import {
 import { OutboundDomainStrategies } from '@/schemas/primitives';
 import { HappyEyeballsSchema } from '@/schemas/protocols/stream/sockopt';
 import { SettingListItem } from '@/components/ui';
+import { HttpUtil } from '@/utils';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { catTabLabel } from '@/pages/settings/catTabLabel';
 import type { XraySettingsValue, SetTemplate } from '@/hooks/useXraySetting';
@@ -51,6 +52,25 @@ export default function BasicsTab({
   const { t } = useTranslation();
   const { isMobile } = useMediaQuery();
   const [modal, modalContextHolder] = Modal.useModal();
+  const [statsEnabled, setStatsEnabled] = useState(false);
+  const [statsBusy, setStatsBusy] = useState(false);
+  useEffect(() => {
+    void HttpUtil.get<{ enabled: boolean }>('/panel/api/abuse/settings', undefined, {
+      silent: true,
+    }).then((response) => {
+      if (response.success && response.obj) setStatsEnabled(response.obj.enabled);
+    });
+  }, []);
+
+  const setStats = async (enabled: boolean) => {
+    setStatsBusy(true);
+    try {
+      const result = await HttpUtil.post('/panel/api/abuse/settings', { enabled });
+      if (result.success) setStatsEnabled(enabled);
+    } finally {
+      setStatsBusy(false);
+    }
+  };
 
   const mutate = useCallback(
     (mutator: (next: XraySettingsValue) => void) => {
@@ -445,6 +465,14 @@ export default function BasicsTab({
               />
             }
           />
+          {!!log.access && log.access !== 'none' && (
+            <SettingListItem
+              title={t('pages.xray.abuseStats')}
+              description={t('pages.xray.abuseStatsDesc')}
+              paddings="small"
+              control={<Switch checked={statsEnabled} loading={statsBusy} onChange={setStats} />}
+            />
+          )}
           <SettingListItem
             title={t('pages.xray.errorLog')}
             description={t('pages.xray.errorLogDesc')}

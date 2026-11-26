@@ -228,6 +228,7 @@ var defaultValueMap = map[string]string{
 	"xrayOutboundTestUrl":         "https://www.google.com/generate_204",
 	"panelOutbound":               "",
 	"devChannelEnable":            "false",
+	"abuseStatsEnable":            "false",
 
 	// LDAP defaults
 	"ldapEnable":             "false",
@@ -1444,6 +1445,30 @@ func (s *SettingService) GetAccessLogEnable() (bool, error) {
 	return (accessLogPath != "none" && accessLogPath != ""), nil
 }
 
+func (s *SettingService) GetAbuseStatsEnable() (bool, error) {
+	return s.getBool("abuseStatsEnable")
+}
+
+func (s *SettingService) SetAbuseStatsEnable(value bool) error {
+	current, err := s.GetAbuseStatsEnable()
+	if err != nil || current == value {
+		return err
+	}
+	if value {
+		logEnabled, err := s.GetAccessLogEnable()
+		if err != nil {
+			return err
+		}
+		if !logEnabled {
+			return fmt.Errorf("enable and save the Xray access log first")
+		}
+		if err := InitializeAbuseStats(); err != nil {
+			return err
+		}
+	}
+	return s.setBool("abuseStatsEnable", value)
+}
+
 // GetLdapEnable returns whether LDAP is enabled.
 func (s *SettingService) GetLdapEnable() (bool, error) {
 	return s.getBool("ldapEnable")
@@ -2097,6 +2122,7 @@ func (s *SettingService) GetDefaultSettings(host string) (any, error) {
 		"datepicker":       func() (any, error) { return s.GetDatepicker() },
 		"ipLimitEnable":    func() (any, error) { return s.GetIpLimitEnable() },
 		"accessLogEnable":  func() (any, error) { return s.GetAccessLogEnable() },
+		"abuseStatsEnable": func() (any, error) { return s.GetAbuseStatsEnable() },
 		"webDomain":        func() (any, error) { return s.GetWebDomain() },
 		"subDomain":        func() (any, error) { return s.GetSubDomain() },
 		"devChannelEnable": func() (any, error) { return s.GetDevChannelEnable() },

@@ -245,6 +245,7 @@ func (a *APIController) initRouter(g *gin.RouterGroup, router http.Handler) {
 	// /panel/api/xray/*.
 	a.settingController = NewSettingController(api)
 	a.xraySettingController = NewXraySettingController(api)
+	registerAbuseRoutes(api)
 
 	// Subscription balancers — client-side balancers for the JSON sub output
 	NewSubBalancerController(api)

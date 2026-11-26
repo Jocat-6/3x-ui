@@ -118,6 +118,7 @@
     "nodes": "Nodes",
     "hosts": "Hosts",
     "settings": "Panel Settings",
+    "abuse": "Usage & IP Bans",
     "xray": "Xray Configs",
     "routing": "Routing",
     "outbounds": "Outbounds",
@@ -135,6 +136,16 @@
     "themeSystem": "System"
   },
   "pages": {
+    "abuse": {
+      "account": "Account", "accounts": "Accounts", "upload": "Upload", "download": "Download",
+      "connections": "Connections", "blocked": "Blocked", "sourceIPs": "Source IPs",
+      "bandwidth": "Account bandwidth · last hour", "bandwidthHint": "Mbps averaged over each five-second Xray traffic poll.",
+      "ports": "Destination ports", "bans": "IP bans", "ban": "Ban IP", "unban": "Unban IP",
+      "confirmBan": "Ban {{ip}}?", "confirmUnban": "Unban {{ip}}?",
+      "logOff": "Enable the Xray access log to collect usage statistics.",
+      "statsOff": "Enable Log statistics under Xray Configs to start collecting.",
+      "bansUnavailable": "The 3x-ipl fail2ban jail is unavailable on this server."
+    },
     "login": {
       "hello": "Hello",
       "title": "Welcome",
@@ -2201,6 +2212,8 @@
       "logLevelDesc": "The log level for error logs, indicating the information that needs to be recorded.",
       "accessLog": "Access Log",
       "accessLogDesc": "The file path for the access log. The special value 'none' disables access logs",
+      "abuseStats": "Log statistics",
+      "abuseStatsDesc": "Collect account usage and source IP statistics after saving the access log setting.",
       "errorLog": "Error Log",
       "errorLogDesc": "The file path for the error log. The special value 'none' disables error logs",
       "dnsLog": "DNS Log",

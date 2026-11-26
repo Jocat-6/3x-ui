@@ -284,6 +284,9 @@ func showSetting(show bool) {
 
 		fmt.Println("hasDefaultCredential:", hasDefaultCredential)
 		fmt.Println("port:", port)
+		if subPort, err := settingService.GetSubPort(); err == nil {
+			fmt.Println("subPort:", subPort)
+		}
 		fmt.Println("webBasePath:", webBasePath)
 	}
 }

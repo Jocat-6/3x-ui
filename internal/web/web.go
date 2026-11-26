@@ -358,6 +358,16 @@ func (s *Server) startTask(restartXray bool, loc *time.Location) {
 
 	// check client ips from log file every 10 sec
 	_, _ = s.cron.AddJob(cadenceClientIPScan, job.NewCheckClientIpJob())
+	_, _ = s.cron.AddFunc("@every 1m", func() {
+		if err := service.CollectAbuseStats(); err != nil {
+			logger.Warning("abuse statistics collection failed:", err)
+		}
+	})
+	go func() {
+		if err := service.CollectAbuseStats(); err != nil {
+			logger.Warning("initial abuse statistics collection failed:", err)
+		}
+	}()
 
 	_, _ = s.cron.AddJob(cadenceNodeHeartbeat, job.NewNodeHeartbeatJob())
 
